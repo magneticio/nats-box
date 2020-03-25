@@ -5,6 +5,7 @@ alias nats-sub="nats_sub"
 alias nats-req="nats_req"
 alias nats-rply="nats_rply"
 alias nats-top="nats_top"
+alias gob-pub="gob_pub"
 
 function stan_sub() {
 	if [ -n "$STAN_CREDS" ] && [ -n "$STAN_CLUSTER" ] && [ -n "$NATS_URL" ]; then
@@ -23,6 +24,16 @@ function stan_pub() {
 		/usr/local/bin/stan-pub -c $STAN_CLUSTER -s $NATS_URL "$@"
 	else
 		/usr/local/bin/stan-pub "$@"
+	fi
+}
+
+function gob_pub() {
+	if [[ -n "$STAN_CREDS" ]] && [[ -n "$STAN_CLUSTER" ]] && [[ -n "$NATS_URL" ]]; then
+		/usr/local/bin/gob-pub -creds $STAN_CREDS -c $STAN_CLUSTER -s $NATS_URL "$@"
+	elif [ -n "$STAN_CLUSTER" ] && [ -n "$NATS_URL" ]; then
+		/usr/local/bin/gob-pub -c $STAN_CLUSTER -s $NATS_URL "$@"
+	else
+		/usr/local/bin/gob-pub "$@"
 	fi
 }
 
